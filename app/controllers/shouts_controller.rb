@@ -11,9 +11,16 @@ class ShoutsController < ApplicationController
   private
 
   def shout_params
-    params.require(:shout).permit(:body)
+    { content: content_for_params }
   end
 
+  def content_for_params
+    TextShout.new(content_params)
+  end
+
+  def content_params
+    params.require(:shout).require(:content).permit(:body)
+  end
 
   def redirect_options_for(shout)
     if shout.persisted?
