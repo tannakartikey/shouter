@@ -5,7 +5,12 @@ Rails.application.routes.draw do
   root to: "homes#show"
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, only: [:create]
-  resources :shouts, only: [:create, :show]
+  resources :shouts, only: [:create, :show] do
+    member do
+      post "like" => "likes#create"
+      delete "unlike" => "likes#destroy"
+    end
+  end
 
   resources :users, only: [:create, :show] do
     resource :password,
